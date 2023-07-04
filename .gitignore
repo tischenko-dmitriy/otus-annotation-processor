@@ -9,3 +9,8 @@
 /srcdir.sh
 /client/.gitattributes
 /processor/.gitattributes
+/workshop/
+/client/build/
+/processor/build/
+/client/.gradle/
+/processor/.gradle/
