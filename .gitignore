@@ -14,3 +14,5 @@
 /processor/build/
 /client/.gradle/
 /processor/.gradle/
+/processor/target/
+/client/target/

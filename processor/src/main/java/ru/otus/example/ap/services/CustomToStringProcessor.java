@@ -1,6 +1,7 @@
 package ru.otus.example.ap.services;
 
 import com.google.common.base.Joiner;
+import org.apache.commons.io.FileUtils;
 import ru.otus.example.ap.annotations.CustomToString;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -8,18 +9,13 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.ExecutableType;
-import javax.lang.model.type.TypeKind;
-import javax.tools.JavaFileObject;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,7 +43,13 @@ public class CustomToStringProcessor extends AbstractProcessor {
         }
 
         classes.forEach(c -> {
-
+            Class<?> cls = c.asType().getClass().getDeclaringClass();
+            String toStringMethod = generateToStringMethod(cls);
+            try {
+                writeClass(cls.getName(), toStringMethod);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         });
         return true;
     }
@@ -84,15 +86,21 @@ public class CustomToStringProcessor extends AbstractProcessor {
         String toStringSimpleClassName = simpleClassName + "ToString";
 
 
-        JavaFileObject toStringFile = processingEnv.getFiler().createSourceFile(toStringClassName);
+//        JavaFileObject toStringFile = processingEnv.getFiler().createSourceFile(toStringClassName);
+        String targetFileName = getTargetFileName(getTargetFileName(toStringClassName));
 
         List<String> content = Files.readAllLines(Paths.get(getSourceFileName(className)));
 
-        try (PrintWriter printWriter = new PrintWriter(toStringFile.openWriter())) {
+        System.out.printf("TARGET FILE: %s\n", targetFileName);
+        FileUtils.touch(new File(targetFileName));
+        FileWriter fileWriter = new FileWriter(targetFileName);
+
+        try (PrintWriter printWriter = new PrintWriter(fileWriter)) {
             for (int i = 0; i < content.size() - 1; i++) {
                 if (content.get(i).startsWith(A_CUSTOM_TO_STRING)) {
                     continue;
                 }
+
                 printWriter.println(content.get(i));
             }
             printWriter.println();
