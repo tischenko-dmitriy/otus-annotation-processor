@@ -1,14 +1,13 @@
 package ru.otus.example.ap.services;
 
+import com.google.auto.service.AutoService;
 import com.google.common.base.Joiner;
 import org.apache.commons.io.FileUtils;
 import ru.otus.example.ap.annotations.CustomToString;
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.*;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,7 +19,9 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@SupportedAnnotationTypes("ru.otus.example.apro.annotations.CustomToString")
+@SupportedAnnotationTypes("ru.otus.example.ap.annotations.CustomToString")
+@SupportedSourceVersion(SourceVersion.RELEASE_17)
+@AutoService(Processor.class)
 public class CustomToStringProcessor extends AbstractProcessor {
     private final String A_CUSTOM_TO_STRING = "@CustomToString";
     private final String PROJECT_DIR = System.getProperty("user.dir") + File.separator;
