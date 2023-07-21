@@ -22,7 +22,8 @@
             <groupId>ru.otus.example</groupId>
             <artifactId>processor</artifactId>
             <version>1.0</version>
-            <optional>true</optional>
+<!--            <optional>true</optional>-->
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
@@ -36,6 +37,11 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <annotationProcessors>
+                        <annotationProcessor>
+                            ru.otus.example.ap.services.CustomToStringProcessor
+                        </annotationProcessor>
+                    </annotationProcessors>
                 </configuration>
             </plugin>
 

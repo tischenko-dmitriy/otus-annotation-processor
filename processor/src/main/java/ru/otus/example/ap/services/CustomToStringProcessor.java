@@ -70,7 +70,7 @@ public class CustomToStringProcessor extends AbstractProcessor {
 
         String toStringBody = Joiner.on("; ").join(toStringContent);
 
-        return String.format("public void toString() {\nString result = %s;\nreturn result;}\n", toStringBody);
+        return String.format("public void customToString() {\nString result = %s;\nreturn result;}\n", toStringBody);
     }
 
     private void writeClass(String className,
@@ -85,8 +85,6 @@ public class CustomToStringProcessor extends AbstractProcessor {
         String toStringClassName = className + "ToString";
         String toStringSimpleClassName = simpleClassName + "ToString";
 
-
-//        JavaFileObject toStringFile = processingEnv.getFiler().createSourceFile(toStringClassName);
         String targetFileName = getTargetFileName(getTargetFileName(toStringClassName));
 
         List<String> content = Files.readAllLines(Paths.get(getSourceFileName(className)));
