@@ -44,14 +44,25 @@ public class CustomToStringProcessor extends AbstractProcessor {
         }
 
         classes.forEach(c -> {
-            Class<?> cls = c.asType().getClass().getDeclaringClass();
+            String className = c.toString();
+            Class<?> cls = null; //.getDeclaringClass();
+            try {
+                cls = Class.forName(className);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            //Class<?> cls = c.getClass().getCanonicalName();
             String toStringMethod = generateToStringMethod(cls);
+
+            System.out.printf("customToString: %s\n", toStringMethod);
+
             try {
                 writeClass(cls.getName(), toStringMethod);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+
         return true;
     }
 
@@ -74,21 +85,25 @@ public class CustomToStringProcessor extends AbstractProcessor {
         return String.format("public void customToString() {\nString result = %s;\nreturn result;}\n", toStringBody);
     }
 
-    private void writeClass(String className,
-                            String toStringMethodBody) throws IOException {
+    private void writeClass(String className, String toStringMethodBody) throws IOException {
         int dot = className.lastIndexOf(".");
 
         String packageName = null;
-        if (dot > 0)
+        if (dot > 0) {
             packageName = className.substring(0, dot);
+        }
 
-        String simpleClassName = className.substring(dot - 1);
+        String simpleClassName = className.substring(dot + 1);
         String toStringClassName = className + "ToString";
         String toStringSimpleClassName = simpleClassName + "ToString";
 
-        String targetFileName = getTargetFileName(getTargetFileName(toStringClassName));
+        String targetFileName = getTargetFileName(toStringClassName);
 
-        List<String> content = Files.readAllLines(Paths.get(getSourceFileName(className)));
+        String sourceFileName = getSourceFileName(className);
+        System.out.printf("className: %s\n", className);
+        System.out.printf("sourceFileName: %s\n", sourceFileName);
+
+        List<String> content = Files.readAllLines(Paths.get(sourceFileName));
 
         System.out.printf("TARGET FILE: %s\n", targetFileName);
         FileUtils.touch(new File(targetFileName));
@@ -102,6 +117,7 @@ public class CustomToStringProcessor extends AbstractProcessor {
 
                 printWriter.println(content.get(i));
             }
+
             printWriter.println();
             printWriter.println(toStringMethodBody);
             printWriter.println();
