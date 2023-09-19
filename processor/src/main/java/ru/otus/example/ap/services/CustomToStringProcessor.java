@@ -9,6 +9,7 @@ import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.ExecutableType;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class CustomToStringProcessor extends AbstractProcessor {
 
         final Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(CustomToString.class);
 
-        List<Element> classes = getClasses(annotatedElements);
+        List<? extends Element> classes = getClasses(annotatedElements);
 
         if (classes.isEmpty()) {
             return false;
@@ -45,19 +46,13 @@ public class CustomToStringProcessor extends AbstractProcessor {
 
         classes.forEach(c -> {
             String className = c.toString();
-            Class<?> cls = null; //.getDeclaringClass();
-            try {
-                cls = Class.forName(className);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-            //Class<?> cls = c.getClass().getCanonicalName();
-            String toStringMethod = generateToStringMethod(cls);
+            Element element = c;
+            Class<?> clazz = element.getKind().getDeclaringClass().;
+            String toStringMethod = generateToStringMethod(clazz);
 
             System.out.printf("customToString: %s\n", toStringMethod);
-
             try {
-                writeClass(cls.getName(), toStringMethod);
+                writeClass(clazz.getName(), toStringMethod);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
