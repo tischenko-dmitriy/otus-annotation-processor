@@ -47,7 +47,12 @@ public class CustomToStringProcessor extends AbstractProcessor {
         classes.forEach(c -> {
             String className = c.toString();
             Element element = c;
-            Class<?> clazz = element.getKind().getDeclaringClass().;
+            Class<?> clazz = null;//element.getClass();
+            try {
+                clazz = ClassLoader.getPlatformClassLoader().loadClass(className);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             String toStringMethod = generateToStringMethod(clazz);
 
             System.out.printf("customToString: %s\n", toStringMethod);
