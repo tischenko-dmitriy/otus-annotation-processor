@@ -22,6 +22,20 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
 }
 
+shadowJar {
+    archiveBaseName.set('otus-annotation-processor')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
+    manifest {
+        attributes 'Implementation-Title': 'otus-annotation-processor',
+                'Implementation-Version': 0.1,
+                'Main-Class': 'org.example.otus.ap.Application'
+    }
+
+}
+
+tasks.build.dependsOn tasks.shadowJar
+
 test {
     useJUnitPlatform()
 }
