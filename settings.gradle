@@ -7,4 +7,5 @@
 
 rootProject.name = 'otus-annotation-processor'
 include 'processor'
+include 'client'
 

@@ -1,4 +1,4 @@
-package org.example.otus.ap.configuration;
+package ru.example.otus.ap.configuration;
 
 import javax.annotation.processing.RoundEnvironment;
 
@@ -30,6 +30,12 @@ public final class ThreadLocalContext {
 
     public static void setShowValuesContent(String toStringContent) {
         SHOW_VALUES_CONTENT.set(toStringContent);
+    }
+
+    public static void remove() {
+        ROUND_ENVIRONMENT.remove();
+        PROCESSING_CLASS_NAME.remove();
+        SHOW_VALUES_CONTENT.remove();
     }
 
 }

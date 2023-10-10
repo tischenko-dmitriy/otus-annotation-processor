@@ -1,4 +1,4 @@
-package org.example.otus.ap;
+package ru.example.otus.ap;
 
 public class Application {
     public static void main(String[] args) {
