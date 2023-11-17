@@ -57,8 +57,8 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <packageName>ru.otus.example.ap</packageName>
-                            <mainClass>ru.otus.example.ap.Application</mainClass>
+                            <packageName>ru.example.otus.ap</packageName>
+                            <mainClass>ru.example.otus.ap.Application</mainClass>
                             <addClasspath>true</addClasspath>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>

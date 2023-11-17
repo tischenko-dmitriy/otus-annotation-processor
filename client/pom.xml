@@ -37,7 +37,7 @@
                     <target>${java.version}</target>
                     <annotationProcessors>
                         <annotationProcessor>
-                            ru.otus.example.ap.services.CustomToStringProcessor
+                            ru.example.otus.ap.processor.AnnotationProcessor
                         </annotationProcessor>
                     </annotationProcessors>
                 </configuration>
@@ -50,8 +50,8 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <packageName>ru.otus.example.apclient</packageName>
-                            <mainClass>ru.otus.example.apclient.Application</mainClass>
+                            <packageName>ru.example.otus.ap.client</packageName>
+                            <mainClass>ru.example.otus.ap.client.Application</mainClass>
                             <addClasspath>true</addClasspath>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
