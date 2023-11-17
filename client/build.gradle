@@ -16,7 +16,10 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ':processor')
+    compileOnly project(path: ':processor')
+
+    annotationProcessor(project(path: ':processor'))
+
 
     implementation 'com.google.guava:guava:32.1.2-jre'
     implementation 'com.google.auto.service:auto-service:1.1.1'

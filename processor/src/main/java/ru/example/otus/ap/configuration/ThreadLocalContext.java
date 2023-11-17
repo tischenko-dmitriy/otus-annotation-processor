@@ -1,10 +1,12 @@
 package ru.example.otus.ap.configuration;
 
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 
 public final class ThreadLocalContext {
 
     private static final ThreadLocal<RoundEnvironment> ROUND_ENVIRONMENT = new ThreadLocal<>();
+    private static final ThreadLocal<ProcessingEnvironment> PROCESS_ENV = new ThreadLocal<>();
     private static final ThreadLocal<String> PROCESSING_CLASS_NAME = new ThreadLocal<>();
     private static final ThreadLocal<String> SHOW_VALUES_CONTENT = new ThreadLocal<>();
 
@@ -16,6 +18,13 @@ public final class ThreadLocalContext {
         ROUND_ENVIRONMENT.set(roundEnvironment);
     }
 
+    public static ProcessingEnvironment getProcessEnv() {
+        return PROCESS_ENV.get();
+    }
+
+    public static void setProcessEnv(ProcessingEnvironment processEnv) {
+        PROCESS_ENV.set(processEnv);
+    }
     public static String getProcessingClassName() {
         return PROCESSING_CLASS_NAME.get();
     }
