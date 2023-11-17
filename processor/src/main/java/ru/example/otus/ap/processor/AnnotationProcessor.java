@@ -70,10 +70,6 @@ public class AnnotationProcessor extends AbstractProcessor {
 
     private void processClass(Element classElement) throws IOException {
 
-        TypeElement typeElement = elementUtils.getTypeElement(classElement.asType().toString());
-        String module = elementUtils.getModuleOf(typeElement).toString();
-        System.out.println("Module: " + module);
-
         String sourcePath = classElement.toString().replace(".", File.separator);
         String sourceFileName = PROJECT_DIR + SOURCE_ROOT + sourcePath + ".java";
         System.out.println("Source file: " + sourceFileName);
